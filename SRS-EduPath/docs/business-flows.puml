@@ -1,0 +1,74 @@
+@startuml Course_Level_Filter
+participant "Học viên (Browser)" as User
+participant "CourseController" as Ctrl
+participant "CourseService" as Svc
+participant "CourseList (Thymeleaf)" as View
+
+User -> View : Chọn Level "Intermediate"
+View -> Ctrl : GET /course/list?level=Intermediate
+Ctrl -> Svc : search("Intermediate", null)
+Svc --> Ctrl : List<Course>
+Ctrl -> View : model.addAttribute("courses", list)
+View --> User : Hiển thị danh sách khóa học phù hợp
+@enduml
+
+@startuml Course_Max_Fee_Filter
+participant "Học viên (Browser)" as User
+participant "CourseController" as Ctrl
+participant "CourseService" as Svc
+participant "CourseList (Thymeleaf)" as View
+
+User -> View : Nhập học phí tối đa
+View -> Ctrl : GET /course/list?maxFee=6000000
+Ctrl -> Svc : search("All", 6000000)
+Svc --> Ctrl : List<Course>
+Ctrl -> View : model.addAttribute("courses", list)
+View --> User : Hiển thị khóa học có học phí <= 6.000.000 VND
+@enduml
+
+@startuml Course_Detail
+participant "Học viên (Browser)" as User
+participant "CourseController" as Ctrl
+participant "CourseService" as Svc
+participant "CourseDetail (Thymeleaf)" as View
+
+User -> Ctrl : GET /course/detail/IELTS-6.5
+Ctrl -> Svc : findByCode("IELTS-6.5")
+Svc --> Ctrl : Course
+Ctrl -> View : model.addAttribute("course", course)
+View --> User : Hiển thị lộ trình, giảng viên, thời lượng
+@enduml
+
+@startuml Course_Update
+participant "Nhân viên học vụ" as Admin
+participant "CourseController" as Ctrl
+participant "CourseService" as Svc
+participant "Repository" as Repo
+
+Admin -> Ctrl : POST /course/update
+Ctrl -> Svc : updateCourse(course)
+Svc -> Repo : findById(course.id)
+Repo --> Svc : Course hiện tại
+Svc -> Repo : Cập nhật học phí và ngày khai giảng
+Ctrl --> Admin : redirect:/course/list
+@enduml
+
+@startuml Course_Delete
+participant "Nhân viên học vụ" as Admin
+participant "CourseController" as Ctrl
+participant "CourseService" as Svc
+participant "Repository" as Repo
+participant "CourseList (Thymeleaf)" as View
+
+Admin -> Ctrl : POST /course/delete/{id}
+Ctrl -> Svc : deleteCourse(id)
+Svc -> Repo : findById(id)
+Repo --> Svc : Course
+alt studentCount = 0
+    Svc -> Repo : delete(course)
+    Ctrl -> View : successMessage
+else studentCount > 0
+    Ctrl -> View : errorMessage
+end
+View --> Admin : Hiển thị kết quả xử lý
+@enduml

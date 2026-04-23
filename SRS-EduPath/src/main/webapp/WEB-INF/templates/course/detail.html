@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main-layout}">
+<head>
+    <title>Chi tiết lộ trình</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow" th:text="${course.code}"></p>
+            <h1 th:text="${course.name}"></h1>
+        </div>
+        <span class="badge danger large" th:if="${course.full}">HẾT CHỖ</span>
+    </div>
+
+    <div class="detail-grid">
+        <article class="detail-panel">
+            <h2>Lộ trình học</h2>
+            <p th:text="${course.description}"></p>
+        </article>
+        <aside class="detail-panel">
+            <dl>
+                <div>
+                    <dt>Giảng viên</dt>
+                    <dd th:text="${course.instructor}"></dd>
+                </div>
+                <div>
+                    <dt>Thời lượng</dt>
+                    <dd th:text="${course.duration}"></dd>
+                </div>
+                <div>
+                    <dt>Học phí</dt>
+                    <dd th:text="${#numbers.formatDecimal(course.tuitionFee, 0, 'POINT', 0, 'COMMA') + ' VND'}"></dd>
+                </div>
+                <div>
+                    <dt>Ngày khai giảng</dt>
+                    <dd th:text="${course.startDate}"></dd>
+                </div>
+            </dl>
+        </aside>
+    </div>
+
+    <div class="footer-actions">
+        <a class="small-button" th:href="@{/course/list}">Quay lại</a>
+        <a class="small-button primary" th:href="@{/course/edit/{id}(id=${course.id})}">Cập nhật khóa học</a>
+    </div>
+</section>
+</body>
+</html>

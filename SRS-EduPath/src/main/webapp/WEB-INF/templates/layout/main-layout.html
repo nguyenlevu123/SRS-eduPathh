@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Edu-Path</title>
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" th:href="@{/course/list}">EDU-PATH</a>
+    <p>Trung tâm định hướng lộ trình tiếng Anh cá nhân hóa</p>
+</header>
+
+<nav class="site-nav" aria-label="Điều hướng chính">
+    <a th:href="@{/course/list}">Danh sách khóa học</a>
+    <a href="#consultation">Đăng ký tư vấn</a>
+</nav>
+
+<main class="content" layout:fragment="content">
+</main>
+</body>
+</html>
